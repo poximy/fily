@@ -1,5 +1,6 @@
-import strawberry
 from typing import List, Literal
+
+import strawberry
 
 
 # Product model
@@ -21,7 +22,7 @@ class Product:
 # User model
 @strawberry.type
 class User:
-    user_id: str  # unique Nickname 
+    user_id: str  # unique Nickname
     pseudonimo: str
     password: str
     user_list: List[Product]
@@ -30,9 +31,3 @@ class User:
     freeze_money: float
     seller_list: List[Product]
     reputation: float
-
-
-    
-
-
-

@@ -17,9 +17,11 @@ ENVIRONMENT="development"
 PORT=8000
 ```
 ### Docker
-Build the image with `docker build -t startup/dev`
+Build the image with `docker build -t startup/dev .`
 
-Now run the container `docker run -p 8000:8000 id-del-contenedor`
+Obtain the id with `docker image`
+
+Now run the container `docker run -p 8000:8000 id-of-the-contenedor`
 
 Open `localhost:8000`
 
@@ -41,7 +43,9 @@ ENVIRONMENT="development"
 PORT=8000
 ```
 ### Docker
-Contruye la imagen con `docker build -t startup/dev`
+Contruye la imagen con `docker build -t startup/dev .`
+
+Obten el id del contenedor `docker image`
 
 Corre el contenedor con docker `docker run -p 8000:8000 id-del-contenedor`
 
