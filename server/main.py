@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(schema.graphql_app)
+app.include_router(schema.graphql_app, prefix="/graphql")
 
 if __name__ == "__main__":
     server(uvicorn.run)
