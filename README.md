@@ -16,6 +16,13 @@ Create a `.env` file and set the following enviorment variables:
 ENVIRONMENT="development"
 PORT=8000
 ```
+### Docker
+Build the image with `docker build -t startup/dev`
+
+Now run the container `docker run -p 8000:8000 id-del-contenedor`
+
+Open `localhost:8000`
+
 ## Servidor
 
 Configuration del servidor:
@@ -33,7 +40,12 @@ Crea un archivo `.env` y asigna las siguientes varibles de entorno:
 ENVIRONMENT="development"
 PORT=8000
 ```
+### Docker
+Contruye la imagen con `docker build -t startup/dev`
 
+Corre el contenedor con docker `docker run -p 8000:8000 id-del-contenedor`
+
+Ahora abre `localhost:8000`
 ## Client
 Client side setup:
 
