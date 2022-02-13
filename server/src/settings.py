@@ -6,7 +6,7 @@ from pydantic import BaseSettings
 
 class Settings(BaseSettings):
     # Environment variables (.env)
-    environment: Literal["production", "development"] = "ENVIRONMENT"
+    environment: Literal["production", "development"] = "DEVELOPMENT"
     port: int = 8000
 
     class Config:
