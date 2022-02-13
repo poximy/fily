@@ -1,11 +1,8 @@
-from typing import List, Literal
+from typing import List
+from pydantic import BaseModel
 
-import strawberry
 
-
-# Product model
-@strawberry.type
-class Product:
+class Product(BaseModel):
     user_id: int
     product_id: int
     category: str
@@ -16,18 +13,16 @@ class Product:
     creation_date: str
     bid_quantity: int = 0
     current_bid: float = 0
-    bid_status: Literal["active", "inactive", "finished"] = "inactive"
+    bid_status: str = "inactive"
 
 
-# User model
-@strawberry.type
-class User:
+class User(BaseModel):
     user_id: str  # unique Nickname
     pseudonimo: str
     password: str
+    user_list: List[Product]
+    seller_list: List[Product]
     seller: bool = False
     reputation: float = 0
     money: float = 0
     freeze_money: float = 0
-    user_list: List[Product] = []
-    seller_list: List[Product] = []

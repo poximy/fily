@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.settings import server
-from src.graphql import schema
+from src.routes import products
 
 app = FastAPI()
 app.add_middleware(
@@ -14,7 +14,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(schema.graphql_app, prefix="/graphql")
+app.include_router(products.router)
 
 if __name__ == "__main__":
     server(uvicorn.run)
