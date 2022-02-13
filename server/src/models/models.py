@@ -12,11 +12,11 @@ class Product:
     name: str
     description: str
     total_buy: float  # price for buy the product inmediately
-    actual_bid: float
     remaining_time: float
-    bid_status: Literal["active", "inactive", "finished"]
-    bid_quantity: int
     creation_date: str
+    bid_quantity: int = 0
+    current_bid: float = 0
+    bid_status: Literal["active", "inactive", "finished"] = "inactive"
 
 
 # User model
@@ -25,9 +25,9 @@ class User:
     user_id: str  # unique Nickname
     pseudonimo: str
     password: str
-    user_list: List[Product]
-    money: float
-    seller: bool
-    freeze_money: float
-    seller_list: List[Product]
-    reputation: float
+    seller: bool = False
+    reputation: float = 0
+    money: float = 0
+    freeze_money: float = 0
+    user_list: List[Product] = []
+    seller_list: List[Product] = []
