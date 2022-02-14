@@ -1,9 +1,13 @@
 import uvicorn
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.settings import server
 from src.routes import products
+from src.settings import redisdb, server
+
+# Database Connections
+redis = redisdb()
+
 
 app = FastAPI()
 app.add_middleware(
@@ -13,6 +17,21 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def database(request: Request, call_next):
+    # Database State
+    request.state.redis = redis
+
+    response = await call_next(request)
+    return response
+
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await redis.close()
+
 
 app.include_router(products.router)
 
