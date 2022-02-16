@@ -1,0 +1,11 @@
+venv/
+
+# binary
+*.py[cod]
+__pycache__/
+
+#pytest
+.pytest_cache/
+
+# Macos
+.DS_Store
