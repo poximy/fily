@@ -1,32 +1,16 @@
-import {
-	Box,
-	Button,
-	Flex,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
+import ProductCard from '@components/product/ProductCard';
+import Nav from '@components/Nav'
 import { NextPage } from 'next';
-import Image from 'next/image';
 
 interface Props {
 	products: Product[] | null;
 }
 
-interface Product {
-	name: string;
-	currentBid: number;
-}
-
 const Home: NextPage<Props> = ({ products }) => {
 	return (
 		<Box pos='fixed' w='100vw' h='100vh' bg='#EEE'>
-			<Flex as='nav' bg='blue.200' justify='center' mb={3}>
-				<Flex w='full' maxW='1024px' justify='space-between'>
-					<Button rounded="none" cursor="pointer" colorScheme='blue'>Cuenta</Button>
-					<Button rounded="none" cursor="pointer" colorScheme='blue'>100</Button>
-				</Flex>
-			</Flex>
-
+			<Nav />
 			<Flex
 				gap={3}
 				overflow='auto'
@@ -36,46 +20,7 @@ const Home: NextPage<Props> = ({ products }) => {
 			>
 				{products &&
 					products.map(product => (
-						<Stack
-							key={product.name}
-							shadow='md'
-							rounded='md'
-							padding={2}
-							margin={2}
-							width='min-content'
-							gap={2}
-							bg='white'
-							justify='space-between'
-						>
-							<Flex direction='column'>
-								<Box
-									mx='auto'
-									w='200px'
-									h='200px'
-									overflow='hidden'
-									rounded='sm'
-									mb={3}
-								>
-									<Image
-										src='/placeholder.jpeg'
-										alt={product.name}
-										width={200}
-										height={200}
-										layout='fixed'
-									/>
-								</Box>
-
-								<Text mt={0} fontWeight='bold' fontSize='xl'>
-									{product.name}
-								</Text>
-							</Flex>
-							<Flex direction='column'>
-								<Text color='GrayText'>Puja actual</Text>
-								<Text fontWeight='bold' fontSize='lg'>
-									$ {product.currentBid}
-								</Text>
-							</Flex>
-						</Stack>
+						<ProductCard {...product}/>
 					))}
 			</Flex>
 		</Box>
