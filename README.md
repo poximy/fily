@@ -17,15 +17,9 @@ ENVIRONMENT="development"
 PORT=8000
 ```
 ### Docker
-Build the image with `docker build -t startup/dev .`
+Run `docker compose up`
 
-Obtain the id with `docker image`
-
-Now run the container `docker run -p 8000:8000 id-of-the-contenedor`
-
-Open `localhost:8000`
-
-## Servidor
+The server will be available in `localhost:8000` ## Servidor
 
 Configuration del servidor:
 
@@ -43,13 +37,9 @@ ENVIRONMENT="development"
 PORT=8000
 ```
 ### Docker
-Contruye la imagen con `docker build -t startup/dev .`
+Corre el commando `docker compose up`
 
-Obten el id del contenedor `docker image`
-
-Corre el contenedor con docker `docker run -p 8000:8000 id-del-contenedor`
-
-Ahora abre `localhost:8000`
+Ahora el servidor estara disponible en `localhost:8000`
 ## Client
 Client side setup:
 
