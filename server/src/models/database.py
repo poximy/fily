@@ -1,4 +1,5 @@
 import aioredis
+import aiosqlite
 
 
 def redis(url: str, username: str, password: str):
@@ -10,3 +11,7 @@ def redis(url: str, username: str, password: str):
     )
 
     return connection
+
+
+async def sqlite(path: str):
+    return await aiosqlite.connect(path)

@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     redis_url: str
     redis_user: str
     redis_password: str
+    sqlite_path: str = ":memory:"
     environment: Literal["production", "development"] = "development"
     port: int = 8000
 
@@ -45,3 +46,8 @@ def redisdb():
     }
 
     return database.redis(**redis_settings)
+
+
+async def sqlitedb():
+    path = config.sqlite_path
+    return await database.sqlite(path)
