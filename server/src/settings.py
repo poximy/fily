@@ -44,4 +44,4 @@ def redisdb():
         "password": config.redis_password,
     }
 
-    return database.connection(**redis_settings)
+    return database.redis(**redis_settings)

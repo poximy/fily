@@ -32,8 +32,9 @@ async def database(request: Request, call_next):
 async def shutdown_event():
     await redis.close()
 
+route_prefix = "/api"
 
-app.include_router(products.router)
+app.include_router(products.router, prefix=route_prefix + "/products")
 
 if __name__ == "__main__":
     server(uvicorn.run)
