@@ -1,29 +1,40 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, HStack, useColorMode } from '@chakra-ui/react';
 import ProductCard from '@components/product/ProductCard';
-import Nav from '@components/Nav'
 import { NextPage } from 'next';
+import MainLayout from 'app/layouts/Main';
+import Chip from '@components/Chip';
 
 interface Props {
 	products: Product[] | null;
 }
 
 const Home: NextPage<Props> = ({ products }) => {
+	const { toggleColorMode } = useColorMode();
+
 	return (
-		<Box pos='fixed' w='100vw' h='100vh' bg='#EEE'>
-			<Nav />
+		<MainLayout>
 			<Flex
 				gap={3}
+				mt={1}
 				overflow='auto'
-				css={{
-					'::-webkit-scrollbar': { display: 'none' },
-				}}
+				py={2}
+				px={2}
 			>
+				<Chip onClick={toggleColorMode}>Change Color Mode</Chip>
+				<Chip>CAtegory 2</Chip>
+				<Chip>CAtegory 3</Chip>
+				<Chip>CAtegory 3</Chip>
+				<Chip>CAtegory 3</Chip>
+				<Chip>CAtegory 3</Chip>
+				<Chip>CAtegory 3</Chip>
+			</Flex>
+			<Flex direction='column' gap={3} padding={3}>
 				{products &&
 					products.map(product => (
-						<ProductCard {...product}/>
+						<ProductCard key={product.name} {...product} />
 					))}
 			</Flex>
-		</Box>
+		</MainLayout>
 	);
 };
 

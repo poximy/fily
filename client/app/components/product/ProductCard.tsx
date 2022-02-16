@@ -1,4 +1,4 @@
-import { Stack, Flex, Box, Text }  from '@chakra-ui/react'
+import { Box, Flex, Grid, GridItem, Text, useColorModeValue } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FC } from 'react';
 
@@ -8,47 +8,66 @@ interface Props {
 }
 
 const ProductCard: FC<Props> = ({ name, currentBid }) => {
-	return (
-						<Stack
-							key={name}
-							shadow='md'
-							rounded='md'
-							padding={2}
-							margin={2}
-							width='min-content'
-							gap={2}
-							bg='white'
-							justify='space-between'
-						>
-							<Flex direction='column'>
-								<Box
-									mx='auto'
-									w='200px'
-									h='200px'
-									overflow='hidden'
-									rounded='sm'
-									mb={3}
-								>
-									<Image
-										src='/placeholder.jpeg'
-										alt={name}
-										width={200}
-										height={200}
-										layout='fixed'
-									/>
-								</Box>
+	const styleBg = useColorModeValue('white', 'neutral.200');
 
-								<Text mt={0} fontWeight='bold' fontSize='xl'>
-									{name}
-								</Text>
-							</Flex>
-							<Flex direction='column'>
-								<Text color='GrayText'>Puja actual</Text>
-								<Text fontWeight='bold' fontSize='lg'>
-									$ {currentBid}
-								</Text>
-							</Flex>
-						</Stack>
+	return (
+		<Grid
+			templateColumns='100px 1fr 150px'
+			justifyItems='center'
+			paddingX={3}
+			paddingY={3}
+			rounded='md'
+			overflow='hidden'
+			bg={styleBg}
+			boxShadow={[
+				'-2px -2px 20px -15px rgba(0, 0, 0, 0.25)',
+				' 2px -2px 20px -15px rgba(0, 0, 0, 0.25)',
+				'0 3px 2px -1px rgba(0, 0, 0, 0.25)',
+			].join(', ')}
+		>
+			<GridItem>
+				<Box rounded='md' overflow='hidden' width='100px' height='100px'>
+					<Image
+						src='/placeholder.jpeg'
+						alt='placeholder'
+						width='100%'
+						height='100%'
+					/>
+				</Box>
+			</GridItem>
+			<GridItem
+				display='flex'
+				flexDirection='column'
+				justifySelf='flex-start'
+				paddingLeft={2}
+				paddingY={1}
+			>
+				<Box>
+					<Text as='h3' fontSize='lg' fontWeight='bold'>
+						{name}
+					</Text>
+				</Box>
+				<Flex direction='column' paddingLeft={4} width='max-content'>
+					<Flex align='center' justify='space-between' gap='1ch'>
+						<Text fontSize='sm'>
+							Puja actual:
+						</Text>
+						<Text as='span' color='principal.green'>
+							$ {currentBid}
+						</Text>
+					</Flex>
+					<Flex align='center' justify='space-between' gap='1ch'>
+						<Text fontSize='sm'>
+							Compra:
+						</Text>
+						<Text as='span' color='principal.orange'>
+							$ {currentBid}
+						</Text>
+					</Flex>
+				</Flex>
+			</GridItem>
+			<GridItem>CHART</GridItem>
+		</Grid>
 	);
 };
 
