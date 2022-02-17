@@ -8,6 +8,7 @@ from .models import database
 
 class Settings(BaseSettings):
     # Environment variables (.env)
+    jwt_key: str
     redis_url: str
     redis_user: str
     redis_password: str

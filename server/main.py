@@ -2,8 +2,11 @@ import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.routes import products
+from src.routes import auth, products
 from src.settings import redisdb, server, sqlitedb
+
+redis = None
+sqlite = None
 
 app = FastAPI()
 app.add_middleware(
@@ -15,23 +18,12 @@ app.add_middleware(
 )
 
 
-@app.middleware("http")
-async def database(request: Request, call_next):
-    # Database State
-    request.state.redis = redis
-    request.state.sqlite = sqlite
-
-    response = await call_next(request)
-    return response
-
-
 @app.on_event("startup")
 async def startup_event():
-    global sqlite
-    sqlite = await sqlitedb()
-
     global redis
+    global sqlite
     redis = redisdb()
+    sqlite = await sqlitedb()
 
 
 @app.on_event("shutdown")
@@ -39,9 +31,22 @@ async def shutdown_event():
     await redis.close()
     await sqlite.close()
 
-route_prefix = "/api"
 
-app.include_router(products.router, prefix=route_prefix + "/products")
+@app.middleware("http")
+async def database(request: Request, call_next):
+    # Database State
+    global redis
+    global sqlite
+    request.state.redis = redis
+    request.state.sqlite = sqlite
+
+    response = await call_next(request)
+    return response
+
+
+route_prefix = "/api"
+app.include_router(products.router, prefix=route_prefix + "/auth")
+app.include_router(auth.router, prefix=route_prefix + "/products")
 
 if __name__ == "__main__":
     server(uvicorn.run)
