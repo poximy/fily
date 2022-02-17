@@ -4,6 +4,11 @@
 		"baseUrl": "./",
 		"paths": {
 			"@components/*": ["app/components/*"],
+			"@services/*": ["app/services/*"],
+			"@models/*": ["app/models/*"],
+			"@utils/*": ["app/utils/*"],
+			"@typings/*": ["app/typings/*"],
+			"@layouts/*": ["app/layouts/*"],
 		},
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
