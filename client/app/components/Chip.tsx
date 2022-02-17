@@ -37,6 +37,7 @@ const Chip: React.FunctionComponent<IChipProps> = ({
 				? {
 						onClick,
 						cursor: 'pointer',
+						userSelect: 'none',
 				  }
 				: {})}
 			colorScheme='gray'

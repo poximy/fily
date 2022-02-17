@@ -25,7 +25,7 @@ const ProductCard: FC<Props> = ({ name, currentBid }) => {
 				'0 3px 2px -1px rgba(0, 0, 0, 0.25)',
 			].join(', ')}
 		>
-			<GridItem>
+			<GridItem alignSelf="center">
 				<Box rounded='md' overflow='hidden' width='100px' height='100px'>
 					<Image
 						src='/placeholder.jpeg'
