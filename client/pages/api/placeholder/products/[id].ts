@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { data } from "./_data";
 
-export function productByIdEndpoint(req: NextApiRequest, res: NextApiResponse) {
+export default function productByIdEndpoint(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
-  const product = data.find((p) => p.id === Number(id));
+  const product = data.find((p) => p.id === parseInt(id as string));
 
   if (!product) {
     res.statusCode = 404;
@@ -14,7 +14,5 @@ export function productByIdEndpoint(req: NextApiRequest, res: NextApiResponse) {
   }
 
   res.statusCode = 200;
-  res.json({
-    product,
-  });
+  res.json(product);
 }
