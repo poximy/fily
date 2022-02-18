@@ -32,7 +32,7 @@ def get_header_token(header: dict):
 
 
 def create_token(data: dict):
-    # Makes a copy so the okjGriginal data is not modified
+    # Makes a copy so the original data is not modified
     # This data will be encoded inside the JWT
     encode = data.copy()
     expire = datetime.now() + timedelta(days=3)
@@ -44,7 +44,7 @@ def create_token(data: dict):
 
 
 def verify_token(token: str) -> Union[str, None]:
-    # Veifies if the data has not been modified
+    # Verifies if the data has not been modified
     try:
         token_data = jwt.decode(token, jwt_key, algorithms=jwt_algorithm)
         user_id = token_data.get("user_id")

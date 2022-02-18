@@ -1,7 +1,7 @@
 import orjson
-from fastapi import APIRouter, HTTPException, Request, BackgroundTasks
+from fastapi import APIRouter, BackgroundTasks, HTTPException, Request
 from pydantic import BaseModel
-from src.auth import verify_token, get_header_token, create_token
+from src.auth import get_header_token, verify_token
 
 router = APIRouter()
 
@@ -24,7 +24,7 @@ async def get_product(request: Request, product_id: int):
         cursor = await sqlite.execute("SELECT * FROM products WHERE product_id = ?", (product_id,))
         data = await cursor.fetchone()
         if data is None:
-            raise HTTPException(status_code=404, detail=f"Product with id: {product_id} not found")  
+            raise HTTPException(status_code=404, detail=f"Product with id: {product_id} not found")
         return {
             "data": {
                 "product_id": data[0]
@@ -81,7 +81,7 @@ async def add_product(background: BackgroundTasks, request: Request, product: Po
     # }
 
 
-@router.delete("/product/{product_id}")
+@router.delete("/{product_id}")
 async def delete_product(request: Request, product_id: int):
     # Can only delete product if product_id belongs to user
     redis = request.state.redis
