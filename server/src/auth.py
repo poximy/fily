@@ -19,11 +19,22 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return crypt_context.verify(plain_password, hashed_password)
 
 
+def get_header_token(header: dict):
+    try:
+        auth_header = header.get("authorization")
+        if auth_header is None:
+            return None
+        bearer, token = auth_header.split()
+        if bearer == "Bearer":
+            return token
+    except Exception:
+        return None
+
+
 def create_token(data: dict):
     # Makes a copy so the okjGriginal data is not modified
     # This data will be encoded inside the JWT
     encode = data.copy()
-
     expire = datetime.now() + timedelta(days=3)
     encode.update({"exp": expire})
 

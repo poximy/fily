@@ -1,8 +1,9 @@
+from psutil import users
 import uvicorn
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
-from src.routes import auth, products
+from src.routes import auth, products, users
 from src.settings import redisdb, server, sqlitedb
 
 redis = None
@@ -45,8 +46,9 @@ async def database(request: Request, call_next):
 
 
 route_prefix = "/api"
-app.include_router(products.router, prefix=route_prefix + "/auth")
-app.include_router(auth.router, prefix=route_prefix + "/products")
+app.include_router(products.router, prefix=route_prefix + "/products")
+app.include_router(auth.router, prefix=route_prefix + "/auth")
+app.include_router(users.router, prefix=route_prefix + "/users")
 
 if __name__ == "__main__":
     server(uvicorn.run)
