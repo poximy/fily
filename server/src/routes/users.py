@@ -21,7 +21,6 @@ class PostUser(BaseModel):
 
 @router.post("/signup")
 async def sign_up(user: PostUser, request: Request):
-    # check if user already exists
     sqlite = request.state.sqlite
     # create table if not exists
     cursor = await sqlite.execute("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, pseudonimo TEXT, email TEXT, phone TEXT, password TEXT, seller BOOLEAN, reputation FLOAT, money FLOAT, freeze_money FLOAT)")
