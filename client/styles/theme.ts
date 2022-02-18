@@ -1,22 +1,25 @@
-import { extendTheme } from '@chakra-ui/react'
-import { createBreakpoints } from '@chakra-ui/theme-tools'
-
-const breakpoints = createBreakpoints({
-  sm: '40em',
-  md: '52em',
-  lg: '64em',
-  xl: '80em',
-})
+import { extendTheme } from '@chakra-ui/react';
 
 const theme = extendTheme({
-  colors: {
+	colors: {
+		principal: {
+			orange: '#F68B0A',
+			blue: '#266DD3',
+			green: '#BAD858',
+		},
 
-  },
-  fonts: {
-    heading: 'Inter',
-    body: 'Inter'
-  },
-  // breakpoints,
-})
+		neutral: {
+			100: '#191919',
+			200: '#212121',
+			300: '#39393A',
+			400: '#6B6B6B',
+			500: '#C4C4C4',
+		},
+	},
+	fonts: {
+		heading: 'Inter',
+		body: 'Inter',
+	},
+});
 
-export default theme
+export default theme;
