@@ -5,6 +5,8 @@ import MainLayout from '@layouts/Main';
 import Chip from '@components/Chip';
 import { CategoriesString, IProduct } from '@typings/product';
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/router';
+import { sanityRoute } from '@app/utils/route';
 
 interface IProductWithRenderData extends IProduct {
 	isDisappearing: boolean;
@@ -17,6 +19,7 @@ interface Props {
 
 const Home: NextPage<Props> = ({ products }) => {
 	const { toggleColorMode } = useColorMode();
+	const router = useRouter();
 
 	// Take all categories from every product,
 	// make a unique list of them and sort them alphabetically
@@ -123,11 +126,29 @@ const Home: NextPage<Props> = ({ products }) => {
 					product =>
 						!product.dontRender &&
 						(product.isDisappearing || product.isAppearing ? (
-							<Collapse key={product.id} in={product.isAppearing}>
-								<ProductCard {...product} />
+							<Collapse key={product.id} unmountOnExit in={product.isAppearing}>
+								<ProductCard
+									onClick={() => {
+										if (!product.isAppearing) return;
+										router.push(
+											`/product/${product.id}-${sanityRoute(product.name)}`,
+										);
+									}}
+									name={product.name}
+									currentBid={product.currentBid}
+								/>
 							</Collapse>
 						) : (
-							<ProductCard key={product.id} {...product} />
+							<ProductCard
+								key={product.id}
+								onClick={() => {
+									router.push(
+										`/product/${product.id}-${sanityRoute(product.name)}`,
+									);
+								}}
+								name={product.name}
+								currentBid={product.currentBid}
+							/>
 						)),
 				)}
 			</Flex>
