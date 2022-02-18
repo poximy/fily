@@ -8,9 +8,14 @@ export const centerTransformProps: BoxProps = {
 	transform: 'translate(-50%, -50%)',
 };
 
-export type CenterTransformProps<AS extends As> = Omit<BoxProps, 'as'> & {
-	as?: AS;
-} & (PropsInfer<AS> extends Omit<BoxProps, 'as'> ? PropsInfer<AS> : {});
+// prettier-ignore
+export type CenterTransformProps<AS extends As> =
+	// Base props
+	& Omit<BoxProps, 'as'> 
+	// Custom to set generic
+	& { as?: AS; } 
+	// If the generic is a Base props based component then add to the props
+	& (PropsInfer<AS> extends Omit<BoxProps, 'as'> ? PropsInfer<AS> : {});
 
 export function CenterTransform<AS extends As = (props: {}) => JSX.Element>(
 	props: CenterTransformProps<AS>,
