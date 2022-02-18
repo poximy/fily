@@ -4,6 +4,8 @@
 		"baseUrl": "./",
 		"paths": {
 			"@components/*": ["app/components/*"],
+			"@app/*": ["app/*"],
+			"@app/layouts/*": ["app/layouts/*"]
 		},
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
