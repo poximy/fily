@@ -1,8 +1,9 @@
 from typing import Optional
-from pydantic import BaseModel
-from fastapi import APIRouter, HTTPException, Request
-from ..auth import hash_password
 
+from fastapi import APIRouter, HTTPException, Request
+from pydantic import BaseModel
+
+from ..auth import hash_password
 
 router = APIRouter()
 
@@ -31,13 +32,13 @@ async def sign_up(user: PostUser, request: Request):
             money FLOAT, freeze_money FLOAT)
             """)
     cursor = await sqlite.execute("""
-    SELECT 
-        * 
-    FROM 
-        users 
-    WHERE 
+    SELECT
+        *
+    FROM
+        users
+    WHERE
         user_id = ?""", (user.user_id,))
-    
+
     await sqlite.commit()
     row = await cursor.fetchone()
     if row:
@@ -66,11 +67,11 @@ async def login(user: PostUser, request: Request):
     # check if user exists
     sqlite = request.state.sqlite
     cursor = await sqlite.execute("""
-        SELECT 
-            * 
-        FROM 
-            users 
-        WHERE 
+        SELECT
+            *
+        FROM
+            users
+        WHERE
             user_id = ?""", (user.user_id,))
     await sqlite.commit()
     row = await cursor.fetchone()
