@@ -9,7 +9,8 @@
 			"@models/*": ["app/models/*"],
 			"@utils/*": ["app/utils/*"],
 			"@typings/*": ["app/typings/*"],
-			"@layouts/*": ["app/layouts/*"]
+			"@layouts/*": ["app/layouts/*"],
+			"@chackra/*": ["app/chackra/*"]
 		},
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
