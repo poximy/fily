@@ -8,6 +8,24 @@ from src.settings import redisdb, server, sqlitedb
 redis = None
 sqlite = None
 
+
+async def create_tables(sqlite):
+    # Create initial tables
+    await sqlite.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            pseudonimo TEXT, email TEXT, phone TEXT,
+            password TEXT, seller BOOLEAN, reputation FLOAT,
+            money FLOAT, freeze_money FLOAT)
+            """)
+    await sqlite.execute("""
+        CREATE TABLE IF NOT EXISTS products (
+            product_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            category TEXT, name TEXT, description TEXT,
+            total_buy INTEGER)
+            """)
+    await sqlite.commit()
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -24,6 +42,7 @@ async def startup_event():
     global sqlite
     redis = redisdb()
     sqlite = await sqlitedb()
+    await create_tables(sqlite)
 
 
 @app.on_event("shutdown")
