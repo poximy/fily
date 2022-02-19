@@ -24,13 +24,6 @@ class PostUser(BaseModel):
 async def sign_up(user: PostUser, request: Request):
     sqlite = request.state.sqlite
     # create table if not exists
-    await sqlite.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            pseudonimo TEXT, email TEXT, phone TEXT,
-            password TEXT, seller BOOLEAN, reputation FLOAT,
-            money FLOAT, freeze_money FLOAT)
-            """)
     cursor = await sqlite.execute("""
     SELECT
         *
