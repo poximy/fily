@@ -23,19 +23,41 @@ class PostUser(BaseModel):
 async def sign_up(user: PostUser, request: Request):
     sqlite = request.state.sqlite
     # create table if not exists
-    cursor = await sqlite.execute("CREATE TABLE IF NOT EXISTS users (user_id INTEGER PRIMARY KEY AUTOINCREMENT, pseudonimo TEXT, email TEXT, phone TEXT, password TEXT, seller BOOLEAN, reputation FLOAT, money FLOAT, freeze_money FLOAT)")
-    cursor = await sqlite.execute("SELECT * FROM users WHERE user_id = ?", (user.user_id,))
+    await sqlite.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            pseudonimo TEXT, email TEXT, phone TEXT,
+            password TEXT, seller BOOLEAN, reputation FLOAT,
+            money FLOAT, freeze_money FLOAT)
+            """)
+    cursor = await sqlite.execute("""
+    SELECT 
+        * 
+    FROM 
+        users 
+    WHERE 
+        user_id = ?""", (user.user_id,))
+    
     await sqlite.commit()
     row = await cursor.fetchone()
     if row:
         raise HTTPException(status_code=400, detail="User already exists")
 
     # create user
-    cursor = await sqlite.execute("INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
-                                  (user.user_id, user.pseudonimo, user.email, user.phone, hash_password(user.password),
-                                   user.seller, user.reputation, user.money, user.freeze_money))
+    cursor = await sqlite.execute(
+        """INSERT INTO users VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""", (
+            user.user_id,
+            user.pseudonimo,
+            user.email,
+            user.phone,
+            hash_password(user.password),
+            user.seller,
+            user.reputation,
+            user.money,
+            user.freeze_money
+        )
+        )
     await sqlite.commit()
-
     return {"user created": user.pseudonimo}
 
 
@@ -43,7 +65,13 @@ async def sign_up(user: PostUser, request: Request):
 async def login(user: PostUser, request: Request):
     # check if user exists
     sqlite = request.state.sqlite
-    cursor = await sqlite.execute("SELECT * FROM users WHERE user_id = ?", (user.user_id,))
+    cursor = await sqlite.execute("""
+        SELECT 
+            * 
+        FROM 
+            users 
+        WHERE 
+            user_id = ?""", (user.user_id,))
     await sqlite.commit()
     row = await cursor.fetchone()
     if not row:
@@ -53,4 +81,4 @@ async def login(user: PostUser, request: Request):
     if not row[4] == hash_password(user.password):
         raise HTTPException(status_code=400, detail="Incorrect password")
 
-    return {"user": row[1]}
+    return {"user": row[0]}
