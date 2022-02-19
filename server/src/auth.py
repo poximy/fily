@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Union
 
+from fastapi.exceptions import HTTPException
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
@@ -51,3 +52,12 @@ def verify_token(token: str) -> Union[str, None]:
         return user_id
     except JWTError:
         return None
+
+
+def authenticated(token) -> str:
+    if token is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = verify_token(token)
+    if user_id is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return user_id
