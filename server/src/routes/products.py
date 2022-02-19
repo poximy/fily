@@ -76,12 +76,6 @@ async def add_product(
 
     # The product is saved to the database and so we can obtain the product_id
     # create table if not exists
-    await sqlite.execute("""
-        CREATE TABLE IF NOT EXISTS products (
-            product_id INTEGER PRIMARY KEY AUTOINCREMENT,
-            category TEXT, name TEXT, description TEXT,
-            total_buy INTEGER)
-            """)
     cursor = await sqlite.execute(
         """INSERT INTO products (
                 category,
