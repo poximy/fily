@@ -3,7 +3,7 @@ from typing import Optional
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel
 
-from ..auth import hash_password
+from ..auth import create_token, hash_password, verify_password
 
 router = APIRouter()
 
@@ -18,6 +18,11 @@ class PostUser(BaseModel):
     reputation: float = 0
     money: float = 0
     freeze_money: float = 0
+
+
+class Login(BaseModel):
+    email: str
+    password: str
 
 
 @router.post("/signup")
@@ -56,7 +61,7 @@ async def sign_up(user: PostUser, request: Request):
 
 
 @router.post("/login")
-async def login(user: PostUser, request: Request):
+async def login(request: Request, data: Login):
     # check if user exists
     sqlite = request.state.sqlite
     cursor = await sqlite.execute("""
@@ -65,14 +70,14 @@ async def login(user: PostUser, request: Request):
         FROM
             users
         WHERE
-            user_id = ?""", (user.user_id,))
+            email = ?""", (data.email,))
     await sqlite.commit()
-    row = await cursor.fetchone()
-    if not row:
+    user = await cursor.fetchone()
+    if user is None:
         raise HTTPException(status_code=400, detail="User does not exist")
 
     # check if password is correct
-    if not row[4] == hash_password(user.password):
+    if not verify_password(data.password, user[4]):
         raise HTTPException(status_code=400, detail="Incorrect password")
 
-    return {"user": row[0]}
+    return create_token({"user_id": user[0]})
