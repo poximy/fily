@@ -55,7 +55,7 @@ function NavButton({ active, children }: INavButtonProps) {
 
 	return (
 		<IconButton
-			color={active ? 'principal.orange' : 'neutral.400'}
+			color={active ? 'brand.orange' : 'neutral.400'}
 			variant='ghost'
 			mr={isSmall ? 0 : 3}
 			aria-label='A'
