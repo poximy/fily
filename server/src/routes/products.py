@@ -27,7 +27,7 @@ async def get_product(request: Request, product_id: int):
         FROM
             products
         WHERE
-            product_id = ?
+            id = ?
         """, (product_id,))
 
         sql_data = await cursor.fetchone()
@@ -70,12 +70,10 @@ async def add_product(
     # Can only post product if user was verified with phone number
     # TODO add number verification
     token = get_header_token(header)
-    # TODO Add user_id to product
     user_id = authenticated(token)
     product_data = product.dict()
 
-    # The product is saved to the database and so we can obtain the product_id
-    # create table if not exists
+    # The product is saved to the database so we can obtain the product_id
     cursor = await sqlite.execute(
         """INSERT INTO products (
                 category,
@@ -104,13 +102,29 @@ async def add_product(
 
 @router.delete("/{product_id}")
 async def delete_product(request: Request, product_id: int):
-    # Can only delete product if product_id belongs to user
     redis = request.state.redis
     sqlite = request.state.sqlite
     header = request.headers
 
     token = get_header_token(header)
     user_id = authenticated(token)
+
+    # Check if product_id exists in sqlite
+    cursor = await sqlite.execute("""
+    SELECT
+        *
+    FROM
+        products
+    WHERE
+        id = ?""", (id,))
+    
+    await sqlite.commit()
+    product_row = await cursor.fetchone()
+    if product_row is None:  # product_id does not exist
+        raise HTTPException(
+            status_code=404,
+            detail=f"Product with id: {product_id} not found")
+    # TODO Can only delete product if product_id belongs to user
 
     value = await redis.delete(product_id)
     if value == 0:

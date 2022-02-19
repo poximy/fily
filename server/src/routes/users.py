@@ -35,7 +35,7 @@ async def sign_up(user: PostUser, request: Request):
     FROM
         users
     WHERE
-        user_id = ?""", (user.user_id,))
+        id = ?""", (user.user_id,))
 
     await sqlite.commit()
     row = await cursor.fetchone()

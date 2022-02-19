@@ -11,18 +11,21 @@ sqlite = None
 
 async def create_tables(sqlite):
     # Create initial tables
+    # with user reference table
     await sqlite.execute("""
         CREATE TABLE IF NOT EXISTS users (
-            user_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             pseudonimo TEXT, email TEXT, phone TEXT,
             password TEXT, seller BOOLEAN, reputation FLOAT,
-            money FLOAT, freeze_money FLOAT)
+            money FLOAT, freeze_money FLOAT,
+            FOREIGN KEY(id) REFERENCES user_id(id))
             """)
     await sqlite.execute("""
         CREATE TABLE IF NOT EXISTS products (
-            product_id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
             category TEXT, name TEXT, description TEXT,
-            total_buy INTEGER)
+            total_buy INTEGER,
+            FOREIGN KEY(id) REFERENCES product_id(id))
             """)
     await sqlite.commit()
 
