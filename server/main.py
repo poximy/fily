@@ -12,12 +12,14 @@ sqlite = None
 async def create_tables(sqlite):
     # Create initial tables
     # with user reference table
+
+    # FIXME foreigen key
     await sqlite.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             pseudonimo TEXT, email TEXT, phone TEXT,
             password TEXT, seller BOOLEAN, reputation FLOAT,
-            money FLOAT, freeze_money FLOAT,
+            money FLOAT, freeze_money FLOAT, verified BOOLEAN,
             FOREIGN KEY(id) REFERENCES user_id(id))
             """)
     await sqlite.execute("""
