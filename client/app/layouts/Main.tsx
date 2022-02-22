@@ -1,4 +1,4 @@
-import { Box, Flex, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
+import { Box, Grid, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
 import Nav from '@components/Nav';
 import * as React from 'react';
 
@@ -16,16 +16,17 @@ const MainLayout: React.FunctionComponent<IMainLayoutProps> = ({
 	return (
 		<>
 			{isMobile ? (
-				<Flex
-					direction='column'
+				<Grid
+					templateColumns='1fr'
+					templateRows='1fr auto'
 					pos='fixed'
-					width='100vw'
-					height='100vh'
+					inset={0}
 					bg={styleBg}
 				>
 					<Box
 						overflow='auto'
-						height='100%'
+						// height='100%'
+						maxHeight='100%'
 						mb='1px'
 						css={{
 							'::-webkit-scrollbar': { display: 'none' },
@@ -43,7 +44,7 @@ const MainLayout: React.FunctionComponent<IMainLayoutProps> = ({
 						{children}
 					</Box>
 					<Nav activeTab='trending' />
-				</Flex>
+				</Grid>
 			) : (
 				<>A</>
 			)}
