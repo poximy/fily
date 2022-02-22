@@ -1,4 +1,12 @@
-import { Box, Button, Flex, Grid, IconButton, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	Flex,
+	Grid,
+	IconButton,
+	Stack,
+	Text,
+} from '@chakra-ui/react';
 import Icon from '@components/Icon';
 import { GetServerSideProps, NextPage } from 'next';
 import * as React from 'react';
@@ -7,6 +15,7 @@ import NextImage from '@chackra/NextImage';
 import MainLayout from '@layouts/Main';
 import { IProduct } from '@typings/product';
 import { sanityRoute } from '@utils/route';
+import ProductCard from '@components/product/ProductCard';
 
 interface ProductScreenProps {
 	product: IProduct | null;
@@ -29,7 +38,7 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 
 	return (
 		<MainLayout>
-			<Flex px={6} justify='space-between' align='center'>
+			<Flex mt={2} px={6} justify='space-between' align='center'>
 				<Text as='span' fontWeight='500' fontSize='lg'>
 					Subastador
 				</Text>
@@ -58,9 +67,9 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 					</Flex>
 				</Flex>
 			</Flex>
-			<Box mt={4} mx={3}>
+			<Box mt={2} mx={3}>
 				<Box px={4} pb={3}>
-					<Text fontSize='xl' fontWeight='600'>
+					<Text fontSize='2xl' fontWeight='600'>
 						{product.name}
 					</Text>
 				</Box>
@@ -176,8 +185,35 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 						</Flex>
 					</Box>
 				</Box>
-				<Box>
-					{/* TODO: GITHUB PROJECT: View Product */}
+				<Box px={4} mt={3} mb={4}>
+					<Box
+						pl={2}
+						py={2}
+						borderLeft='solid 3px'
+						borderLeftColor='brand.green'
+					>
+						<Text color='brand.green' fontSize='xl' fontWeight='600'>
+							Productos relacionados
+						</Text>
+					</Box>
+
+					<Flex direction='column' gap={3} mt={4} mx={2}>
+						{(
+							[
+								{ id: 0, name: 'A', currentBid: 100, category: 'tech' },
+								{ id: 0, name: 'B', currentBid: 200, category: 'tech' },
+								{ id: 0, name: 'C', currentBid: 300, category: 'tech' },
+								{ id: 0, name: 'E', currentBid: 400, category: 'tech' },
+								{ id: 0, name: 'F', currentBid: 500, category: 'tech' },
+							] as IProduct[]
+						).map((product, index) => (
+							<ProductCard
+								key={index}
+								name={product.name}
+								currentBid={product.currentBid}
+							/>
+						))}
+					</Flex>
 				</Box>
 			</Box>
 		</MainLayout>
