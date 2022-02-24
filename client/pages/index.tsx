@@ -3,16 +3,17 @@ import ProductCard from '@components/product/ProductCard';
 import { NextPage } from 'next';
 import MainLayout from '@layouts/Main';
 import Chip from '@components/Chip';
-import { CategoriesString, IProduct } from '@typings/product';
 import { useEffect, useMemo, useState } from 'react';
+import prisma from '@lib/prisma';
+import { Product } from '@prisma/client';
 
-interface IProductWithRenderData extends IProduct {
+interface IProductWithRenderData extends Product {
 	isDisappearing: boolean;
 	isAppearing: boolean;
 	dontRender: boolean;
 }
 interface Props {
-	products: IProduct[] | null;
+	products: Product[] | null;
 }
 
 const Home: NextPage<Props> = ({ products }) => {
@@ -32,10 +33,8 @@ const Home: NextPage<Props> = ({ products }) => {
 		[products],
 	);
 
-	const [selectedCategory, setSelectedCategory] =
-		useState<CategoriesString | null>(null);
-
-	const [productsToRender, setProductsToRender] = useState<IProduct[]>([]);
+	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+	const [productsToRender, setProductsToRender] = useState<Product[]>([]);
 	const [productsToRenderWithData, setProductsToRenderWithData] = useState<
 		IProductWithRenderData[]
 	>([]);
@@ -138,44 +137,10 @@ const Home: NextPage<Props> = ({ products }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-	const products: IProduct[] = [
-		{
-			id: 1,
-			name: 'PS5 Spiderman edition',
-			currentBid: 1400,
-			category: 'videogames',
-		},
-		{
-			id: 2,
-			name: 'Tickets BadBunny',
-			currentBid: 800,
-			category: 'tickets',
-		},
-		{
-			id: 3,
-			name: 'Tenis Yeeze 300 Boost',
-			currentBid: 400,
-			category: 'other',
-		},
-		{
-			id: 4,
-			name: 'Xbox Series S',
-			currentBid: 720,
-			category: 'videogames',
-		},
-		{
-			id: 5,
-			name: 'RTX 3080ti',
-			currentBid: 1320,
-			category: 'tech',
-		},
-		{
-			id: 6,
-			name: 'Charizard Pokemon Card',
-			currentBid: 22000,
-			category: 'other',
-		},
-	];
+	// Loads products from database
+	const products = await prisma.product.findMany({
+		take: 6,
+	});
 
 	return {
 		props: {
