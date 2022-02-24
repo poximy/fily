@@ -1,4 +1,10 @@
-import { Button, Flex, IconButton, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
+import {
+	Button,
+	Flex,
+	IconButton,
+	useColorModeValue,
+	useMediaQuery,
+} from '@chakra-ui/react';
 import { FC, useMemo } from 'react';
 import Icon from './Icon';
 

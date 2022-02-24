@@ -1,8 +1,8 @@
-export type CategoriesString = "videogames" | "tickets" | "tech" | "other";
+export type CategoriesString = 'videogames' | 'tickets' | 'tech' | 'other';
 
 export interface IProduct {
-  id: number;
+	id: number;
 	name: string;
 	currentBid: number;
-  category: CategoriesString;
+	category: CategoriesString;
 }

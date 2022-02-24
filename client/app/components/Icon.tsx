@@ -10,8 +10,8 @@ const Icon: React.FunctionComponent<IIconProps> = ({ name, ...props }) => {
 	return (
 		<Text
 			as='span'
-      fontWeight='400'
-      fontSize='24px'
+			fontWeight='400'
+			fontSize='24px'
 			{...props}
 			css={{
 				fontFamily: `"Material Icons${
