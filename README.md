@@ -1,6 +1,7 @@
 # Startup
 
 ## Sever
+
 Server side setup:
 
 Once you have the repo cloned, open the server directory.
@@ -12,11 +13,14 @@ Now activate the virtual environment `source venv/bin/python`
 Then install the requirements `pip install -r requirements.txt`
 
 Create a `.env` file and set the following enviorment variables:
+
 ```bash
 ENVIRONMENT="development"
 PORT=8000
 ```
+
 ### Docker
+
 Run `docker compose up`
 
 The server will be available in `localhost:8000` ## Servidor
@@ -32,15 +36,20 @@ Activa el entorno virtual `source venv/bin/python`
 Instala los requerimientos `pip install -r requirements.txt`
 
 Crea un archivo `.env` y asigna las siguientes varibles de entorno:
+
 ```bash
 ENVIRONMENT="development"
 PORT=8000
 ```
+
 ### Docker
+
 Corre el commando `docker compose up`
 
 Ahora el servidor estara disponible en `localhost:8000`
+
 ## Client
+
 Client side setup:
 
 Once you have the repo cloned, open the client directory.
@@ -48,10 +57,13 @@ Once you have the repo cloned, open the client directory.
 Now run `npm install`
 
 Create a `.env` file and set the following enviorment variables:
+
 ```bash
 API_URL="https://..."
 ```
+
 ## Cliente
+
 Client side setup:
 
 Una vez hayas clonado el repositorio, abre el directorio client.
@@ -59,6 +71,7 @@ Una vez hayas clonado el repositorio, abre el directorio client.
 Ahora ejecuta `npm install`
 
 Crea un archivo `.env` y asigna las siguientes varibles de entorno:
+
 ```bash
 API_URL="https://..."
 ```
