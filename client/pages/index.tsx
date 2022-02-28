@@ -3,18 +3,19 @@ import ProductCard from '@components/product/ProductCard';
 import { NextPage } from 'next';
 import MainLayout from '@layouts/Main';
 import Chip from '@components/Chip';
-import { CategoriesString, IProduct } from '@typings/product';
 import { useEffect, useMemo, useState } from 'react';
+import prisma from '@lib/prisma';
+import { Product } from '@prisma/client';
 import { useRouter } from 'next/router';
 import { sanityRoute } from '@app/utils/route';
 
-interface IProductWithRenderData extends IProduct {
+interface IProductWithRenderData extends Product {
 	isDisappearing: boolean;
 	isAppearing: boolean;
 	dontRender: boolean;
 }
 interface Props {
-	products: IProduct[] | null;
+	products: Product[] | null;
 }
 
 const Home: NextPage<Props> = ({ products }) => {
@@ -35,10 +36,8 @@ const Home: NextPage<Props> = ({ products }) => {
 		[products],
 	);
 
-	const [selectedCategory, setSelectedCategory] =
-		useState<CategoriesString | null>(null);
-
-	const [productsToRender, setProductsToRender] = useState<IProduct[]>([]);
+	const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+	const [productsToRender, setProductsToRender] = useState<Product[]>([]);
 	const [productsToRenderWithData, setProductsToRenderWithData] = useState<
 		IProductWithRenderData[]
 	>([]);
@@ -159,7 +158,10 @@ const Home: NextPage<Props> = ({ products }) => {
 export default Home;
 
 export const getServerSideProps = async () => {
-	const products = (await fetch("http://localhost:3000/api/placeholder/products").then(res => res.json()))?.products;
+	// Loads products from database
+	const products = await prisma.product.findMany({
+		take: 6,
+	});
 
 	return {
 		props: {

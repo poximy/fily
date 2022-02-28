@@ -10,6 +10,7 @@
 			"@utils/*": ["app/utils/*"],
 			"@typings/*": ["app/typings/*"],
 			"@layouts/*": ["app/layouts/*"],
+			"@lib/*": ["app/lib/*"],
 			"@chackra/*": ["app/chackra/*"]
 		},
 		"lib": ["dom", "dom.iterable", "esnext"],

@@ -1,4 +1,7 @@
-from src.auth import create_token, verify_token, hash_password, verify_password
+import pytest
+from fastapi.exceptions import HTTPException
+from src.auth import (authenticated, create_token, get_header_token,
+                      hash_password, verify_password, verify_token)
 
 
 def test_token():
@@ -19,3 +22,21 @@ def test_hashing():
     hashed_password = hash_password(password)
 
     assert verify_password(password, hashed_password)
+
+
+def test_get_header_token():
+    token = "randomtoken123456789"
+    header = {
+        "authorization": "Bearer" + " " + token
+    }
+    header_token = get_header_token(header)
+    assert token == header_token
+
+    no_bearer = {"authorization": "nobearertoken"}
+    header_token = get_header_token(no_bearer)
+    assert header_token is None
+
+
+def test_authenticated():
+    with pytest.raises(HTTPException):
+        authenticated(None) is None

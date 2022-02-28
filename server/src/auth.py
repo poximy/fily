@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 from typing import Union
 
+from fastapi.exceptions import HTTPException
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
@@ -19,11 +20,22 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
     return crypt_context.verify(plain_password, hashed_password)
 
 
+def get_header_token(header: dict):
+    try:
+        auth_header = header.get("authorization")
+        if auth_header is None:
+            return None
+        bearer, token = auth_header.split()
+        if bearer == "Bearer":
+            return token
+    except Exception:
+        return None
+
+
 def create_token(data: dict):
-    # Makes a copy so the okjGriginal data is not modified
+    # Makes a copy so the original data is not modified
     # This data will be encoded inside the JWT
     encode = data.copy()
-
     expire = datetime.now() + timedelta(days=3)
     encode.update({"exp": expire})
 
@@ -33,10 +45,19 @@ def create_token(data: dict):
 
 
 def verify_token(token: str) -> Union[str, None]:
-    # Veifies if the data has not been modified
+    # Verifies if the data has not been modified
     try:
         token_data = jwt.decode(token, jwt_key, algorithms=jwt_algorithm)
         user_id = token_data.get("user_id")
         return user_id
     except JWTError:
         return None
+
+
+def authenticated(token) -> str:
+    if token is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    user_id = verify_token(token)
+    if user_id is None:
+        raise HTTPException(status_code=401, detail="Unauthorized")
+    return user_id
