@@ -3,18 +3,19 @@ import {
 	Flex,
 	Grid,
 	GridItem,
+	GridProps,
 	Text,
 	useColorModeValue,
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FC } from 'react';
 
-interface Props {
+interface Props extends Omit<GridProps, 'id'> {
 	name: string;
 	currentBid: number;
 }
 
-const ProductCard: FC<Props> = ({ name, currentBid }) => {
+const ProductCard: FC<Props> = ({ name, currentBid, ...props }) => {
 	const styleBg = useColorModeValue('white', 'neutral.200');
 
 	return (
@@ -31,6 +32,8 @@ const ProductCard: FC<Props> = ({ name, currentBid }) => {
 				' 2px -2px 20px -15px rgba(0, 0, 0, 0.25)',
 				'0 3px 2px -1px rgba(0, 0, 0, 0.25)',
 			].join(', ')}
+			cursor={props.onClick ? 'pointer' : 'default'}
+			{...props}
 		>
 			<GridItem alignSelf='center'>
 				<Box rounded='md' overflow='hidden' width='100px' height='100px'>

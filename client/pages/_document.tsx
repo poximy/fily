@@ -24,6 +24,10 @@ export default class Document extends NextDocument {
 						href='https://fonts.googleapis.com/icon?family=Material+Icons+Two+Tone'
 						rel='stylesheet'
 					/>
+					<link
+						href='https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@100;200;300;400;500;600;700;800;900&display=swap'
+						rel='stylesheet'
+					></link>
 				</Head>
 				<body>
 					{/* Make Color mode to persists when you refresh the page. */}

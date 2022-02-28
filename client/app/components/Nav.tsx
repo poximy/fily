@@ -5,6 +5,7 @@ import {
 	useColorModeValue,
 	useMediaQuery,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import { FC, useMemo } from 'react';
 import Icon from './Icon';
 
@@ -18,6 +19,40 @@ export interface INavProps {
 	activeTab: ActiveTab;
 }
 
+interface INavTab {
+	name: ActiveTab;
+	icon: string;
+	url: string;
+}
+
+const navTabs: INavTab[] = [
+	{
+		name: 'search',
+		icon: 'search',
+		url: '/search',
+	},
+	{
+		name: 'basket',
+		icon: 'shopping_basket',
+		url: '/basket',
+	},
+	{
+		name: 'trending',
+		icon: 'trending_up',
+		url: '/',
+	},
+	{
+		name: 'notifications',
+		icon: 'notifications',
+		url: '/notifications',
+	},
+	{
+		name: 'profile',
+		icon: 'person',
+		url: '/profile',
+	},
+];
+
 const Nav: FC<INavProps> = ({ activeTab }) => {
 	const styleBg = useColorModeValue('#FEFEFE', 'neutral.100');
 
@@ -30,15 +65,17 @@ const Nav: FC<INavProps> = ({ activeTab }) => {
 			boxShadow='0 -1px #AAA'
 			px={4}
 			py={4}
+			zIndex={5}
 		>
 			<Flex width='100%' justify='space-around'>
-				<NavButton active={activeTab === 'search'}>search</NavButton>
-				<NavButton active={activeTab === 'basket'}>shopping_basket</NavButton>
-				<NavButton active={activeTab === 'trending'}>trending_up</NavButton>
-				<NavButton active={activeTab === 'notifications'}>
-					notifications
-				</NavButton>
-				<NavButton active={activeTab === 'profile'}>person</NavButton>
+				{navTabs.map(tab => (
+					<NavButton
+						key={tab.name}
+						active={tab.name === activeTab}
+						url={tab.url}
+						icon={tab.icon}
+					/>
+				))}
 			</Flex>
 		</Flex>
 	);
@@ -46,10 +83,11 @@ const Nav: FC<INavProps> = ({ activeTab }) => {
 
 interface INavButtonProps {
 	active: boolean;
-	children: string;
+	url: string;
+	icon: string;
 }
 
-function NavButton({ active, children }: INavButtonProps) {
+function NavButton({ active, url, icon }: INavButtonProps) {
 	const [isSmall] = useMediaQuery('(max-width: 256px)');
 	const sizes = useMemo(
 		() => ({
@@ -60,19 +98,21 @@ function NavButton({ active, children }: INavButtonProps) {
 	);
 
 	return (
-		<IconButton
-			color={active ? 'principal.orange' : 'neutral.400'}
-			variant='ghost'
-			mr={isSmall ? 0 : 3}
-			aria-label='A'
-			icon={
-				<Icon
-					transition='font-size .3s ease'
-					fontSize={active ? sizes.active : sizes.normal}
-					name={children}
-				/>
-			}
-		/>
+		<Link href={url} passHref>
+			<IconButton
+				color={active ? 'brand.orange' : 'neutral.400'}
+				variant='ghost'
+				mr={isSmall ? 0 : 3}
+				aria-label='A'
+				icon={
+					<Icon
+						transition='font-size .3s ease'
+						fontSize={active ? sizes.active : sizes.normal}
+						name={icon}
+					/>
+				}
+			/>
+		</Link>
 	);
 }
 
