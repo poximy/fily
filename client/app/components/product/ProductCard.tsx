@@ -60,13 +60,13 @@ const ProductCard: FC<Props> = ({ name, currentBid, ...props }) => {
 				<Flex direction='column' paddingLeft={4} width='max-content'>
 					<Flex align='center' justify='space-between' gap='1ch'>
 						<Text fontSize='sm'>Puja actual:</Text>
-						<Text as='span' color='brand.green'>
+						<Text as='span' color='principal.green'>
 							$ {currentBid}
 						</Text>
 					</Flex>
 					<Flex align='center' justify='space-between' gap='1ch'>
 						<Text fontSize='sm'>Compra:</Text>
-						<Text as='span' color='brand.orange'>
+						<Text as='span' color='principal.orange'>
 							$ {currentBid}
 						</Text>
 					</Flex>
