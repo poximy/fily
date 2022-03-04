@@ -1945,6 +1945,11 @@ is-glob@^4.0.0, is-glob@^4.0.1, is-glob@^4.0.3:
   dependencies:
     is-extglob "^2.1.1"
 
+is-mobile@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/is-mobile/-/is-mobile-3.1.0.tgz#d1d053ed1bdc97b6bf95843d11ea9eb83380cc29"
+  integrity sha512-BUeEDcth3Mj03fZ+Xo+amAvER9snFH8cx8A5GTHmWFZmKcIPqpQ5fAsDH6EGstRoLGdFnSZWXImK5IPh534enw==
+
 is-negative-zero@^2.0.1:
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/is-negative-zero/-/is-negative-zero-2.0.2.tgz#7bf6f03a28003b8b3965de3ac26f664d765f3150"
