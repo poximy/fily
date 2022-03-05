@@ -1,3 +1,4 @@
+import { useMobile } from '@app/hooks/useMobile';
 import { Box, Grid, useColorModeValue, useMediaQuery } from '@chakra-ui/react';
 import Nav from '@components/Nav';
 import * as React from 'react';
@@ -10,7 +11,7 @@ const MainLayout: React.FunctionComponent<IMainLayoutProps> = ({
 	children,
 	...props
 }) => {
-	const [isMobile] = useMediaQuery('(max-width: 768px)');
+	const isMobile = useMobile();
 	const styleBg = useColorModeValue('#FEFEFE', 'neutral.100');
 
 	return (
