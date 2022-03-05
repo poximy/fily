@@ -20,7 +20,7 @@ const theme = extendTheme({
 			900: '#040b16',
 		},
 
-		brandOrange: {
+		principal: {
 			100: '#fef3e6',
 			200: '#fcdcb5',
 			300: '#fac584',
