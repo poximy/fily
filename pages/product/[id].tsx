@@ -13,15 +13,19 @@ import * as React from 'react';
 import { CenterTransform } from '@chackra/center';
 import NextImage from '@chackra/NextImage';
 import MainLayout from '@layouts/Main';
-import { IProduct } from '@typings/product';
 import { sanityRoute } from '@utils/route';
 import ProductCard from '@components/product/ProductCard';
+import { Product, User } from '@prisma/client';
+import { IProduct } from '@app/typings/product';
+import { useRouter } from 'next/router';
 
 interface ProductScreenProps {
-	product: IProduct | null;
+	product: (Product & { User: User }) | null;
 }
 
 const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
+	const router = useRouter();
+
 	if (!product) {
 		return (
 			<MainLayout>
@@ -39,9 +43,15 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 	return (
 		<MainLayout>
 			<Flex mt={2} px={6} justify='space-between' align='center'>
-				<Text as='span' fontWeight='500' fontSize='lg'>
-					Subastador
-				</Text>
+				<Flex>
+					<IconButton
+						onClick={() => router.back()}
+						icon={() => <span>{'<'}</span>}
+					></IconButton>
+					<Text as='span' fontWeight='500' fontSize='lg'>
+						{product.User.nickname}
+					</Text>
+				</Flex>
 				<Flex align='center' gap={2}>
 					<Text
 						fontFamily="'Source Code Pro'"
@@ -55,6 +65,7 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 						{[...Array(5)].map((_, i) => (
 							<Icon
 								key={i}
+								color='yellow.400'
 								name={
 									i + 1 <= stars
 										? 'star'
@@ -228,13 +239,22 @@ export const getServerSideProps: GetServerSideProps = async context => {
 		.split('-')
 		.slice(1)
 		.join('-');
-	const res = await fetch(
-		`http://localhost:3000/api/placeholder/products/${id}`,
-	);
 
-	const product = (await res.json()) as IProduct;
+	const product = await prisma.product.findUnique({
+		where: {
+			id,
+		},
+		include: {
+			User: {
+				select: {
+					id: true,
+					nickname: true,
+				},
+			},
+		},
+	});
 
-	if (!res.ok || sanityRoute(product.name) !== productName) {
+	if (!product || sanityRoute(product.name) !== productName) {
 		context.res.statusCode = 404;
 
 		return {
