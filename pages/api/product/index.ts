@@ -10,23 +10,37 @@ interface ProductPostBody {
 	totalBuy?: number;
 }
 
-const validatePost = async function (body: any) {
-	if ('name' in body && 'description' in body && 'category' in body) {
-		if (
-			typeof body.name === 'string' &&
+const hasValidFields = (body: any): boolean => {
+	return 'name' in body && 'description' in body && 'category' in body;
+}
+
+// validates totalBuy seperatly since it is optional
+// if not present default value of 0 is given
+const hasTotalBuyValid = (body: any): boolean => {
+	return (
+		typeof body.totalBuy === 'undefined' ||
+			typeof body.totalBuy === 'number');
+}
+
+const hasValidTypesByFields = (body: any): boolean => {
+	return (
+		typeof body.name === 'string' &&
 			typeof body.description === 'string' &&
-			typeof body.category === 'string'
-		) {
-			// validates totalBuy seperatly since it is optional
-			// if not present default value of 0 is given
-			if ('totalBuy' in body && typeof body.totalBuy !== 'number') {
-				throw Error('Field types are not correct');
-			}
-			return body as ProductPostBody;
-		}
+			typeof body.category === 'string' &&
+			hasTotalBuyValid(body)
+	);
+}
+
+const validatePost = function (body: any): ProductPostBody {
+	if (!hasValidFields(body)){
+		throw Error('Missing body fields');
+	}
+
+	if (!hasValidTypesByFields(body)) {
 		throw Error('Field types are not correct');
 	}
-	throw Error('Missing body fields');
+
+	return body as ProductPostBody;
 };
 
 const createPost = async function (product: ProductPostBody, userId: string) {
@@ -44,19 +58,26 @@ export default async function handler(
 ) {
 	try {
 		if (req.method === 'GET') {
+			console.error("No implemented GET");
+			return;
 		}
 		// session is required for all other methods
-		const session = getSession({ req });
+		const session = await getSession({ req });
 
 		if (req.method === 'POST') {
-			const body = await validatePost(req.body);
+			const body = validatePost(req.body);
+
 			// FIXME This will not work without session data
-			const product = createPost(body, session.data.userId);
+			const product = createPost(body,session.data.userId);
 
 			// TODO redirect to newly created product
 			res.redirect(301, '');
 			return;
-		} else if (req.method === 'DELETE') {
+		}
+
+		if (req.method === 'DELETE') {
+			console.error("No implemented DELETE");
+			return;
 		}
 	} catch (error) {
 		res.status(403).json({ error: error as string });
