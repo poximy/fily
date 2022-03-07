@@ -68,7 +68,7 @@ export default async function handler(
 			const body = validatePost(req.body);
 
 			// FIXME This will not work without session data
-			const product = createPost(body,session.data.userId);
+			const product = createPost(body, session.data.userId);
 
 			// TODO redirect to newly created product
 			res.redirect(301, '');
@@ -80,7 +80,7 @@ export default async function handler(
 			return;
 		}
 	} catch (error) {
-		res.status(403).json({ error: error as string });
+		res.status(404).json({ error: error as string });
 		return;
 	}
 	res.json({ message: 'hello' });
