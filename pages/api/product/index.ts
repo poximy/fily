@@ -17,7 +17,7 @@ const validatePost = async function (body: any) {
 			typeof body.description === 'string' &&
 			typeof body.category === 'string'
 		) {
-			// validates totalBuy seperatly since it is optional
+			// validates totalBuy separately since it is optional
 			// if not present default value of 0 is given
 			if ('totalBuy' in body && typeof body.totalBuy !== 'number') {
 				throw Error('Field types are not correct');

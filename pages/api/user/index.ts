@@ -37,7 +37,7 @@ export default async function handler(
 				// FIXME userId must contain its correct type
 				if (body.id !== session.data.userId) {
 					// Makes sure user account id the same as session userId
-					// Could be spoofed and delete another users account
+					// Could be spoofed and delete another user account
 					res
 						.status(406)
 						.json({ error: 'Cannot delete another users account' });
