@@ -141,7 +141,7 @@ export default page<Props>(
 										onClick={() => {
 											if (!product.isAppearing) return;
 											router.push(
-												`/product/${product.id}-${sanityRoute(product.name)}`,
+												`/product/${sanityRoute(product.name)}?id=${product.id}`,
 											);
 										}}
 										name={product.name}
@@ -153,7 +153,7 @@ export default page<Props>(
 									key={product.id}
 									onClick={() => {
 										router.push(
-											`/product/${product.id}-${sanityRoute(product.name)}`,
+											`/product/${sanityRoute(product.name)}?id=${product.id}`,
 										);
 									}}
 									name={product.name}
