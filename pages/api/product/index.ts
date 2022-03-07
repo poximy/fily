@@ -59,7 +59,7 @@ export default async function handler(
 		} else if (req.method === 'DELETE') {
 		}
 	} catch (error) {
-		res.status(403).json({ error: error as string });
+		res.status(404).json({ error: error as string });
 		return;
 	}
 	res.json({ message: 'hello' });
