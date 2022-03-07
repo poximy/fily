@@ -1,12 +1,4 @@
-import {
-	Box,
-	Button,
-	Flex,
-	Grid,
-	IconButton,
-	Stack,
-	Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, IconButton, Text } from '@chakra-ui/react';
 import Icon from '@components/Icon';
 import { GetServerSideProps, NextPage } from 'next';
 import * as React from 'react';
@@ -38,16 +30,21 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 		);
 	}
 
-	const stars = 4.7;
+	const stars =
+		typeof product.User.reputation !== 'number'
+			? 0
+			: parseFloat(((product.User.reputation / 100) * 5).toFixed(2));
 
 	return (
 		<MainLayout>
 			<Flex mt={2} px={6} justify='space-between' align='center'>
-				<Flex>
+				<Flex align='center'>
 					<IconButton
+						variant='ghost'
 						onClick={() => router.back()}
-						icon={() => <span>{'<'}</span>}
-					></IconButton>
+						icon={<Box lineHeight='1'>{'<'}</Box>}
+						aria-label='Go back'
+					/>
 					<Text as='span' fontWeight='500' fontSize='lg'>
 						{product.User.nickname}
 					</Text>
@@ -180,17 +177,9 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 					</Box>
 
 					<Box px={4} py={2}>
-						Mollit consequat in nostrud labore ad ipsum minim officia duis ad
-						consectetur. Nostrud est officia eiusmod nostrud amet irure. Non
-						ipsum deserunt quis officia dolor fugiat dolore sunt. Irure amet
-						mollit enim dolore. Ullamco magna laborum esse fugiat dolor id non
-						consectetur qui. Do nulla et aute pariatur excepteur deserunt id
-						commodo ut eiusmod dolore consequat esse incididunt. Exercitation
-						exercitation non ex labore enim ex in non veniam ex reprehenderit
-						aliquip. Anim incididunt ut magna eu reprehenderit pariatur sint ea
-						consectetur nostrud nulla. Veniam ipsum non in quis in incididunt
-						non eiusmod velit commodo eu velit cillum. Cillum nostrud aute ut
-						aute. Ea fugiat laboris nostrud officia pariatur cillum sint culpa
+						{product.description.split('\n').map((line, i) => (
+							<Text key={i}>{line}</Text>
+						))}
 						<Flex mt={2} align='center' gap='1ch' color='brand.blue'>
 							<Icon name='task_alt' lineHeight='1.24' /> Producto en buen estado
 						</Flex>
@@ -234,11 +223,18 @@ const ProductScreen: NextPage<ProductScreenProps> = ({ product }) => {
 export default ProductScreen;
 
 export const getServerSideProps: GetServerSideProps = async context => {
-	const id = (context.query.id as string).split('-')[0];
-	const productName = (context.query.id as string)
-		.split('-')
-		.slice(1)
-		.join('-');
+	const id = context.query.id as string | undefined;
+	const productName = context.query.slugh as string;
+
+	if (typeof id !== 'string') {
+		context.res.statusCode = 404;
+
+		return {
+			props: {
+				product: null,
+			},
+		};
+	}
 
 	const product = await prisma.product.findUnique({
 		where: {
@@ -249,6 +245,7 @@ export const getServerSideProps: GetServerSideProps = async context => {
 				select: {
 					id: true,
 					nickname: true,
+					reputation: true,
 				},
 			},
 		},
