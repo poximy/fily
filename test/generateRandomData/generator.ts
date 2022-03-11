@@ -1,45 +1,42 @@
 import faker from '@faker-js/faker';
 
 type Product = {
-	category: string,
-	name: string,
-	description: string,
-	currentBid: number,
-	totalBuy?: number,
+	category: string;
+	name: string;
+	description: string;
+	currentBid: number;
+	totalBuy?: number;
 };
 
 type User = {
-	email: string,
-	nickname: string,
-	password: string,
-	money: number,
-	phone: string,
-	reputation: number,
-	verified: boolean,
-	products: Array<Product>,
+	email: string;
+	nickname: string;
+	password: string;
+	money: number;
+	phone: string;
+	reputation: number;
+	verified: boolean;
+	products: Array<Product>;
 };
-
-
 
 const fakerPrice = faker.commerce.price;
 const generatePrice = (...args: Parameters<typeof fakerPrice>) => {
 	return parseFloat(fakerPrice(...args));
-}
+	n;
+};
 // Array.from({length: numberOfThigs}, () => generator(...argsOfGenerator));
 
-function generateProduct(): Product{
+function generateProduct(): Product {
 	return {
 		category: faker.commerce.department(),
 		name: faker.commerce.productName(),
 		description: faker.lorem.paragraph(),
 		currentBid: generatePrice(),
-		totalBuy: faker.random.arrayElement([
-			undefined,
-			generatePrice(900),
-		])};
+		totalBuy: faker.random.arrayElement([undefined, generatePrice(900)]),
+	};
 }
 
-function generateUser(numberOfProducs: number): User{
+function generateUser(numberOfProducs: number): User {
 	return {
 		email: faker.internet.email(),
 		nickname: faker.internet.userName(),
@@ -49,7 +46,7 @@ function generateUser(numberOfProducs: number): User{
 		reputation: parseInt(faker.commerce.price(0, 100)),
 		verified: faker.random.arrayElement([true, false]),
 		products: generateProducts(numberOfProducs),
-	}
+	};
 }
 // function generateProductWithUserId(id: string){
 // 	return {
@@ -58,16 +55,16 @@ function generateUser(numberOfProducs: number): User{
 // };
 
 function generateProducts(numberOfProducts = 5): Array<Product> {
-	return Array.from(
-		{length: numberOfProducts},
-		() => generateProduct());
+	return Array.from({ length: numberOfProducts }, () => generateProduct());
 }
 
-function generateUsers(numberOfUsers: number,
-					   numberOfProducsByUser: number): Array<User>{
-	return Array.from(
-		{length: numberOfUsers},
-		() => generateUser(numberOfProducsByUser));
+function generateUsers(
+	numberOfUsers: number,
+	numberOfProducsByUser: number,
+): Array<User> {
+	return Array.from({ length: numberOfUsers }, () =>
+		generateUser(numberOfProducsByUser),
+	);
 }
 
 export { generateUsers };

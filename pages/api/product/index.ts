@@ -12,27 +12,27 @@ interface ProductPostBody {
 
 const hasValidFields = (body: any): boolean => {
 	return 'name' in body && 'description' in body && 'category' in body;
-}
+};
 
 // validates totalBuy seperatly since it is optional
 // if not present default value of 0 is given
 const hasTotalBuyValid = (body: any): boolean => {
 	return (
-		typeof body.totalBuy === 'undefined' ||
-			typeof body.totalBuy === 'number');
-}
+		typeof body.totalBuy === 'undefined' || typeof body.totalBuy === 'number'
+	);
+};
 
 const hasValidTypesByFields = (body: any): boolean => {
 	return (
 		typeof body.name === 'string' &&
-			typeof body.description === 'string' &&
-			typeof body.category === 'string' &&
-			hasTotalBuyValid(body)
+		typeof body.description === 'string' &&
+		typeof body.category === 'string' &&
+		hasTotalBuyValid(body)
 	);
-}
+};
 
 const validatePost = function (body: any): ProductPostBody {
-	if (!hasValidFields(body)){
+	if (!hasValidFields(body)) {
 		throw Error('Missing body fields');
 	}
 
@@ -58,7 +58,7 @@ export default async function handler(
 ) {
 	try {
 		if (req.method === 'GET') {
-			console.error("No implemented GET");
+			console.error('No implemented GET');
 			return;
 		}
 		// session is required for all other methods
@@ -68,7 +68,7 @@ export default async function handler(
 			const body = validatePost(req.body);
 
 			// FIXME This will not work without session data
-			const product = createPost(body,session.data.userId);
+			const product = createPost(body, session.data.userId);
 
 			// TODO redirect to newly created product
 			res.redirect(301, '');
@@ -76,7 +76,7 @@ export default async function handler(
 		}
 
 		if (req.method === 'DELETE') {
-			console.error("No implemented DELETE");
+			console.error('No implemented DELETE');
 			return;
 		}
 	} catch (error) {
