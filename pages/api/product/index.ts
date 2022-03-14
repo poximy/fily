@@ -1,7 +1,9 @@
 import prisma from '@lib/prisma';
+import { Prisma } from '@prisma/client';
 
 import { getSession } from 'next-auth/react';
 import { NextApiRequest, NextApiResponse } from 'next';
+import Session from 'next';
 
 interface ProductPostBody {
 	name: string;
@@ -43,7 +45,10 @@ const validatePost = function (body: any): ProductPostBody {
 	return body as ProductPostBody;
 };
 
-const createPost = async function (product: ProductPostBody, userId: string) {
+const createPost = async function (
+	product: ProductPostBody,
+	userId: string,
+): Promise<Prisma.ProductCreateInput> {
 	return await prisma.product.create({
 		data: {
 			userId,
@@ -62,13 +67,17 @@ export default async function handler(
 			return;
 		}
 		// session is required for all other methods
-		const session = await getSession({ req });
+		let session: Session | null = await getSession({ req });
+		if (session == null) {
+			throw Error('Session is null :{');
+			// session = { data: { userID: 'DEFAULD ID' } };
+		}
 
 		if (req.method === 'POST') {
 			const body = validatePost(req.body);
 
 			// FIXME This will not work without session data
-			const product = createPost(body, session.data.userId);
+			const product = await createPost(body, session.data.userId);
 
 			// TODO redirect to newly created product
 			res.redirect(301, '');

@@ -20,11 +20,9 @@ type User = {
 };
 
 const fakerPrice = faker.commerce.price;
-const generatePrice = (...args: Parameters<typeof fakerPrice>) => {
+function generatePrice(...args: Parameters<typeof fakerPrice>): number {
 	return parseFloat(fakerPrice(...args));
-	n;
-};
-// Array.from({length: numberOfThigs}, () => generator(...argsOfGenerator));
+}
 
 function generateProduct(): Product {
 	return {
@@ -48,14 +46,9 @@ function generateUser(numberOfProducs: number): User {
 		products: generateProducts(numberOfProducs),
 	};
 }
-// function generateProductWithUserId(id: string){
-// 	return {
-// 		...generateProduct(),
-// 		User: { connect: { id, }, } };
-// };
 
 function generateProducts(numberOfProducts = 5): Array<Product> {
-	return Array.from({ length: numberOfProducts }, () => generateProduct());
+	return Array.from({ length: numberOfProducts }, generateProduct);
 }
 
 function generateUsers(
