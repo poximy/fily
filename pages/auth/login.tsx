@@ -9,6 +9,7 @@ import {
 	HStack,
 	Text,
 } from '@chakra-ui/react';
+
 import Icon from '@components/Icon';
 import React from 'react';
 
