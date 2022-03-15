@@ -5,18 +5,18 @@ import faker from '@faker-js/faker';
 // FIXME
 // Temporal type
 // Product-Data-Object-Tranposrt (?)
-type productDOT = {
-	name: string;
-	category: string;
-	description: string;
-	currentBid: number;
-	totalBuy?: number;
-	User: {
-		connect: {
-			id: string;
-		};
-	};
-};
+// type productDOT = {
+// 	name: string;
+// 	category: string;
+// 	description: string;
+// 	currentBid: number;
+// 	totalBuy?: number;
+// 	User: {
+// 		connect: {
+// 			id: string;
+// 		};
+// 	};
+// };
 
 // FIXME
 // Temporal type
@@ -37,7 +37,7 @@ async function clear(): Promise<void> {
 }
 
 async function seedProducts(id: string, n = 5): Promise<void> {
-	const products: Array<productDOT> = Array.from({ length: n }, () => {
+	const products = Array.from({ length: n }, () => {
 		return {
 			name: faker.commerce.productName(),
 			category: faker.commerce.department(),
@@ -56,7 +56,7 @@ async function seedProducts(id: string, n = 5): Promise<void> {
 	});
 
 	await Promise.all(
-		products.map(async (user: productDOT) => {
+		products.map(async user => {
 			prisma.product.create({
 				data: user,
 			});
@@ -85,7 +85,7 @@ async function seedUsers(n = 5): Promise<void> {
 	}
 }
 
-async function main() {
+async function main(): Promise<void> {
 	await clear();
 	await seedUsers();
 }
