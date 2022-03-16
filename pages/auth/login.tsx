@@ -1,6 +1,15 @@
 import MainLayout from '@app/layouts/Main';
 import { page } from '@app/utils/Page';
-import { Box, Button, ButtonProps, Divider, Flex, HStack, Text } from '@chakra-ui/react';
+import {
+	Box,
+	Button,
+	ButtonProps,
+	Divider,
+	Flex,
+	HStack,
+	Text,
+} from '@chakra-ui/react';
+
 import Icon from '@components/Icon';
 import React from 'react';
 
@@ -34,7 +43,7 @@ const PageLogin = page<IPageLoginProps>(
 					>
 						<HStack>
 							<Divider />
-							<Text whiteSpace="nowrap">Continuar con</Text>
+							<Text whiteSpace='nowrap'>Continuar con</Text>
 							<Divider />
 						</HStack>
 						<LoginLink>Google</LoginLink>

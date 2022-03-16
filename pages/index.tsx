@@ -141,7 +141,9 @@ export default page<Props>(
 										onClick={() => {
 											if (!product.isAppearing) return;
 											router.push(
-												`/product/${sanityRoute(product.name)}?id=${product.id}`,
+												`/product/${sanityRoute(product.name)}?id=${
+													product.id
+												}`,
 											);
 										}}
 										name={product.name}
