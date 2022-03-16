@@ -16,4 +16,4 @@ GOOGLE_CLIENT_SECRET=""
 
 Finally run `npx prisma generate`
 
-Now you can start coding 😀
+Now you can start coding :<
