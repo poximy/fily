@@ -5,7 +5,8 @@
   "singleQuote": true,
   "trailingComma": "all",
   "arrowParens": "avoid",
-  "svelteStrictMode": true,
+  "svelteStrictMode": false,
+  "svelteAllowShorthand": true,
   "plugins": ["prettier-plugin-tailwindcss"],
   "pluginSearchDirs": ["."],
   "overrides": [
