@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Product } from '$components/products/types';
+
   export let products: Product[];
 </script>
 
