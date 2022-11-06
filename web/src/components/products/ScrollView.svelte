@@ -5,10 +5,13 @@
 </script>
 
 <main class="mx-4 flex justify-center">
-  <ul class="flex flex-row gap-4 overflow-x-scroll font-sans">
+  <ul
+    class="flex snap-x snap-mandatory flex-row gap-4 overflow-x-scroll scroll-smooth font-sans"
+  >
     {#each products as product}
       <li
-        class="flex aspect-[3/4] flex-col justify-between border border-black p-2"
+        class="flex aspect-[3/4] snap-center snap-always flex-col justify-between
+        border border-black p-2"
       >
         <img
           src={product.image}
