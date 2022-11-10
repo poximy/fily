@@ -4,3 +4,8 @@ export interface Product {
   price: number;
   sold: number;
 }
+
+export interface Header {
+  title: string;
+  link: string;
+}
