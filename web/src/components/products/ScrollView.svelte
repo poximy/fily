@@ -12,8 +12,8 @@
         <h2 class="font-sans text-lg">{header.title}</h2>
         <a
           href={header.link}
-          class="flex items-center space-x-1 p-1 text-sky-400 transition ease-in
-        hover:bg-neutral-200"
+          class="flex items-center gap-1 p-1 text-sky-400 transition ease-in
+          hover:bg-neutral-200"
         >
           <p>Ver Mas</p>
           <svg
@@ -49,8 +49,8 @@
           />
           <p class="truncate">{product.title}</p>
           <p class="text-xs text-neutral-600">Puja Minima</p>
-          <p class="font-mono text-lg">${product.price}</p>
-          <p class="w-fit bg-neutral-200 p-1 text-sm">
+          <p class="font-mono text-lg font-bold">${product.price}</p>
+          <p class="w-fit bg-neutral-200 p-1 text-xs">
             {#if product.sold == 1}
               {product.sold} vendida
             {:else}
