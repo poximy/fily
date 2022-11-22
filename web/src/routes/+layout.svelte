@@ -1,28 +1,14 @@
 <script lang="ts">
   import '../app.css';
-  import { onMount } from 'svelte';
 
-  let searchBar: HTMLElement;
+  let inputField: HTMLInputElement;
 
-  onMount(() => {
-    searchBar = document.getElementById('search-bar')!;
-  });
-
-  function handleKeydown(
-    event: KeyboardEvent & { currentTarget: EventTarget & Window },
-  ) {
-    if (document.activeElement == searchBar) {
-      return;
-    }
-
-    if (event.key === '/') {
-      searchBar.focus();
-      event.preventDefault();
-    }
+  function handleKeydown() {
+    inputField.focus();
   }
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
+<svelte:window on:keydown|preventDefault={handleKeydown} />
 
 <nav
   class="flex w-full flex-col gap-y-2 gap-x-4 font-sans sm:flex-row sm:items-center sm:px-4"
@@ -37,6 +23,7 @@
       spellcheck="false"
       placeholder="Buscar marca, color, etc."
       class="absolute z-10 h-full w-full rounded-none border border-black p-2 focus:outline-none"
+      bind:this={inputField}
     />
   </div>
   <ul
