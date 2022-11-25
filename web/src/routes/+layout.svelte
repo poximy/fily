@@ -19,7 +19,7 @@
   class="flex w-full flex-col gap-y-2 gap-x-4 font-sans sm:flex-row sm:items-center sm:px-4"
 >
   <div
-    class="relative z-10 m-4 mb-0 h-10 flex-auto before:absolute before:top-1
+    class="relative z-10 mx-4 h-10 flex-auto before:absolute before:top-1
     before:left-1 before:h-full before:w-full before:bg-sky-400 sm:m-0"
   >
     <input
